@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package poc;
+
+message Ticket {
+  string name   = 1;
+  string email  = 2;
+  string ticket = 3;
+}
+
+service TicketService {
+  rpc CreateTikect(CreateTicketRequest) returns(CreateTicketResponse) {};
+  rpc BidiHello(stream CreateTicketRequest) returns(stream CreateTicketResponse) {};
+  rpc LotsOfGreetings(stream CreateTicketRequest) returns(CreateTicketResponse) {};
+  rpc UploadFile(stream FileChunk) returns(UploadStatus) {}; // Método de upload de arquivos
+}
+
+message CreateTicketRequest {
+  string name   = 1;
+  string email  = 2;
+  string ticket = 3;
+}
+
+message CreateTicketResponse {
+  string id = 1;
+  string name   = 2;
+  string email  = 3;
+  string ticket = 4;
+}
+
+message FileChunk {
+  bytes chunk_data = 1;
+}
+
+message UploadStatus {
+  bool success = 1;
+  string message = 2;
+}
+
+
+// protoc --plugin=protoc-gen-dart=/home/thiago/.pub-cache/bin/protoc-gen-dart \                                                                                                                           ──(qua,fev21)─┘
+//       -I=. --dart_out=grpc:../generated ticket.proto
